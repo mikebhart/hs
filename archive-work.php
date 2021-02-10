@@ -6,10 +6,9 @@ function genlite_empty_content($str) {
     return trim(str_replace('&nbsp;','',strip_tags($str))) == '';
 }
 
-$postsPerPage = 20;
 $args = array(
 		'post_type' => 'work',
-		'posts_per_page' => $postsPerPage);
+		'posts_per_page' => -1);
 
 $loop = new WP_Query($args);
 
@@ -18,91 +17,62 @@ $row_count = $loop->found_posts;
 ?>
 
 <div class="container">
-
-
 	<div class="row genlite__content justify-content-center pt-3">
-			<div class="genlite-archive-title">
-				<h1>My recent work</h1>
-			</div>
+		<div class="genlite-archive-title">
+			<h1>My Portfolio</h1>
+		</div>
+        <p class="pl-1 pr-1 pt-1 pb-1 pt-md-4 pb-md-4">I’m proud to have worked on some amazing projects.  Below shows some of my latest and best work.</p>
 	</div>
+</div>
 	
-	<div class="row mt-5 justify-content-center">
-
+<?php
 	
-		<?php
-		
-		
-		while ($loop->have_posts()) : $loop->the_post();
+    while ($loop->have_posts()) : $loop->the_post();
 
-				$featured_img_url = get_the_post_thumbnail_url(get_the_ID()); 
-				$post_categories = get_the_category( $query->ID );
-	
-		
-		?>
-			
+			$featured_img_url = get_the_post_thumbnail_url( get_the_ID(), 'medium' ); 
+			$post_categories = get_the_category( $query->ID );  ?>
 
-			 <div class="col-12 col-lg-6"> 
-
-				 <div class="genlite-card-project">
-
-                        <img src="<?php echo esc_url($featured_img_url); ?>" alt="">
-					                        
-						<div class="genlite-card-project__box-content text-center">
-
-                            <h3 class="title"><?php the_title(); ?></h3>
-                            <span class="post"> 
-							<?php 
+        <div class="post-card__layout">
+            <article class="post-card --center-bg-image" style="background-image: url( <?php echo esc_url($featured_img_url); ?>);">
+                <div class="post-card__overlay">
+                    <div class="post-card__overlay-content">
+                        <h3 class="post-title"><?php the_title(); ?></h3>
+                            <p> 
+							    <?php 
 	                    		
-	                    		// echo substr(get_the_excerpt(),0,75); 
-	                    		// echo '<br><p>';
-	                   	
-		                    	$post_categories = wp_get_object_terms( $post->ID, 'work_category' );
-		                    	$postCatCount = 0;
-								foreach($post_categories as $c) {
+                                    $post_categories = wp_get_object_terms( $post->ID, 'work_category' );
+                                    $post_cat_count = 0;
+                                    
+                                    foreach($post_categories as $c) {
 
-								  $cat = get_category( $c );
-									  
-								  if ($postCatCount >0) {
-								  	 echo ' | ' . esc_attr($cat->name);
-								  } else {	
-									  echo  esc_attr($cat->name);
-								  }
-		
-								  $postCatCount++;
-								}
+                                        $cat = get_category( $c );
+                                            
+                                        if ( $post_cat_count > 0 ) {
+                                            echo ', ' . esc_attr( $cat->name );
+                                        } else {	
+                                            echo esc_attr( $cat->name );
+                                        }
+                
+                                        $post_cat_count++;
 
-								echo '</p>';
+                                    }
 
-		                     ?>
-							</span>
-                            <ul class="icon text-center">
-								<?php if (!genlite_empty_content($post->post_content)) { ?>
-                             	   <li><a href="<?php echo esc_url(get_permalink()); ?>" class="fas fa-info" data-type="page-transition"></a></li>
-								<?php }   
-								$website_value =  esc_url(get_post_meta(get_the_ID(), 'website_key', true)); 
-								if (!empty($website_value)) { ?>
-                               	 <li><a href="<?php echo esc_attr($website_value); ?>" class="fa fa-link"></a></li>
-								<?php } ?>
-                            </ul>
-                        </div>
-					
+		                        ?>
+
+							</p>
+
+                            <a href="<?php echo esc_url(get_permalink()); ?>" title="<?php the_title(); ?>">View Project <i class="fas fa-angle-double-right" aria-hidden="true"></i></a>
                     </div>
-			</div>
+                </div>
+            </article>
+        </div>
 
+<?php
+    
+    endwhile;
+    wp_reset_postdata(); ?>
 
-
-
-
-			<?php
-                  endwhile;
-          wp_reset_postdata();
-          ?>
-
-
-
-	</div>
-
-</div>		
-<br>
+<div class="clearfix"></div>
 
 <?php get_footer(); ?>
+
