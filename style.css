@@ -30,11 +30,7 @@ Template:       genlite
 
 .post-card {
     text-align: center;
-    color: #fff !important;
-}
-
-.post-card.--center-bg-image {
-    background-position: center center;
+    color: #fff;
 }
 
 .post-card {
@@ -43,8 +39,9 @@ Template:       genlite
     height: 0;
     padding-bottom: 65%;
     background-size: cover;
+    background-position: center center;
     text-align: center;
-    color: #fff!important;
+    color: #fff;
     overflow: hidden;
 }
 

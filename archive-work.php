@@ -27,13 +27,13 @@ $row_count = $loop->found_posts;
 	
 <?php
 	
-    while ($loop->have_posts()) : $loop->the_post();
+    while ( $loop->have_posts()) : $loop->the_post();
 
 			$featured_img_url = get_the_post_thumbnail_url( get_the_ID(), 'medium' ); 
 			$post_categories = get_the_category( $query->ID );  ?>
 
         <div class="post-card__layout">
-            <article class="post-card --center-bg-image" style="background-image: url( <?php echo esc_url($featured_img_url); ?>);">
+            <article class="post-card" style="background-image: url( <?php echo esc_url( $featured_img_url ); ?> );">
                 <div class="post-card__overlay">
                     <div class="post-card__overlay-content">
                         <h3 class="post-title"><?php the_title(); ?></h3>
@@ -42,8 +42,8 @@ $row_count = $loop->found_posts;
 	                    		
                                     $post_categories = wp_get_object_terms( $post->ID, 'work_category' );
                                     $post_cat_count = 0;
-                                    
-                                    foreach($post_categories as $c) {
+
+                                    foreach( $post_categories as $c ) {
 
                                         $cat = get_category( $c );
                                             
@@ -61,7 +61,7 @@ $row_count = $loop->found_posts;
 
 							</p>
 
-                            <a href="<?php echo esc_url(get_permalink()); ?>" title="<?php the_title(); ?>">View Project <i class="fas fa-angle-double-right" aria-hidden="true"></i></a>
+                            <a href="<?php echo esc_url( get_permalink() ); ?>" title="<?php the_title(); ?>">View Project <i class="fas fa-angle-double-right" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </article>
